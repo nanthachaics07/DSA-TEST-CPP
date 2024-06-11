@@ -49,12 +49,13 @@ private:
     };
     Answer A;
 
-public:
     struct ConAns {
         string firstStr, secondStr;
         char op;
     };
     ConAns C;
+
+public:
 
     Calculator& insertNums() {
         cout << "Enter your first number: ";
