@@ -135,10 +135,10 @@ public:
         }
     }
 
-    void BFSGraph(int vertex, bool direct) {
+    void BFSGraph(int vertex) {
         vector<bool> visted(GN.vertex, false);
         queue<int> q;
-        visted[vertex] = direct; // decare true if wanna search
+        visted[vertex] = true; // decare true if wanna search
         q.push(vertex);
 
         while (!q.empty()) {
@@ -205,16 +205,14 @@ private:
         if (current == NULL) {
             return createNode(data);
         }
-        Node *newnode = createNode(data);
-        Node *temp = current;
-        while (temp->next != NULL) {
-            temp = temp->next;
+        if (current->next == NULL) {
+            Node *newnode = createNode(data);
+            current->next = newnode;
+            newnode->prev = current;
+        } else {
+            current->next = insertDubbleList(current->next, data);
+            current->next->prev = current;
         }
-        temp->next = newnode;
-        newnode->prev = temp;
-
-        // current->next = insertDubbleList(current->next, data);
-        // current->next->prev = current;
         return current;
     }
 
@@ -222,16 +220,16 @@ private:
         if (current == NULL) {
             return createNode(data);
         }
-        Node *newnode = createNode(data);
-        Node *temp = current;
-        while (temp->next != NULL) {
-            temp = temp->next;
-        }
-        temp->next = newnode;
-
-        // current = insertSingleList(current->next, data);
-        // current->next = current;
+        current->next = insertSingleList(current->next, data);
         return current;
+    }
+
+    void printNode(Node *node) {
+        if (node != NULL) {
+            cout << node->data << " ";
+            printNode(node->next);
+        }
+        // cout << endl;
     }
 
     Node *deleteNode(Node *current, int key) {
@@ -247,7 +245,7 @@ private:
                 this->current = temp;
             }
             delete current;
-            delete temp;
+            return temp;
         } else {
             current->next = deleteNode(current->next, key);
         }
@@ -279,30 +277,47 @@ public:
         current = deleteNode(current, key);
     }
 
-    void printNode(Node *node) {
-        if (node != NULL) {
-            cout << node->data << " ";
-            printNode(node->next);
-        }
+    void printNode() {
+        printNode(current);
     }
 
 };
 
 
 int main() {
-    Tree t;
-    t.insertTree(4);
-    t.insertTree(5);
-    t.insertTree(45);
-    t.insertTree(9);
-    t.insertTree(34);
-    t.insertTree(41);
-    t.insertTree(14);
-    t.insertTree(21);
-    t.insertTree(33);
+    // Tree t;
+    // t.insertTree(4);
+    // t.insertTree(5);
+    // t.insertTree(45);
+    // t.insertTree(9);
+    // t.insertTree(34);
+    // t.insertTree(41);
+    // t.insertTree(14);
+    // t.insertTree(21);
+    // t.insertTree(33);
 
-    cout << " Tree is : ";
-    t.printTree();
+    // cout << " Tree is : ";
+    // t.printTree();
+    // cout << endl;
+
+    Linklist list;
+    // list.insertDubbleList(10);
+    // list.insertDubbleList(5);
+    // list.insertDubbleList(20);
+    // list.insertDubbleList(15);
+
+    list.insertSingleList(10);
+    list.insertSingleList(3);
+    list.insertSingleList(23);
+    list.insertSingleList(30);
+    list.insertSingleList(54);
+
+    list.printNode(); // Output: 5 10 15 20
+    cout << endl;
+
+    list.deleteNode(10);
+
+    list.printNode(); // Output: 5 15 20
     cout << endl;
 
     return 0;
