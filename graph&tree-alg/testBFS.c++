@@ -33,6 +33,19 @@ public:
         return;
     }
 
+    void insertionSort(vector<int> data) {
+        int n = data.size();
+        for (int i=0; i<=n-1; i++) {
+            int key = data[i];
+            int j = i-1;
+            while (j>=0 && data[j] > key) {
+                data[j+1] = data[j];
+                j--;
+            }
+            data[j+1] = key;
+        }
+    }
+
     void insertTree(Node *&root, int data) {
         if (root == NULL) {
             root = createNode(data);

@@ -2,6 +2,7 @@
 #include <sstream>
 #include <string>
 #include <cctype>
+#include <type_traits>
 
 using namespace std;
 
@@ -74,7 +75,6 @@ private:
     ConAns C;
 
 public:
-
     Calculator& insertNums() {
         cout << "Enter your first number: ";
         cin >> C.firstStr;
@@ -99,7 +99,7 @@ public:
         } else if (isDouble(C.firstStr) && isDouble(C.secondStr)) {
             double first = stod(C.firstStr);
             double second = stod(C.secondStr);
-            double calcResult = calculate(first, second, C.op);
+            double calcResult = calculate<double>(first, second, C.op);
             A.result = to_string(calcResult);
         } else {
             A.result = "Error: Inconsistent or invalid number types";
