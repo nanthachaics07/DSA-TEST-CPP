@@ -201,12 +201,36 @@ private:
         return new Node(data);
     }
 
-    Node *insertNode(Node *current, int data) {
+    Node *insertDubbleList(Node *current, int data) {
         if (current == NULL) {
             return createNode(data);
         }
-        current->next = insertNode(current->next, data);
-        current->next->prev = current;
+        Node *newnode = createNode(data);
+        Node *temp = current;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = newnode;
+        newnode->prev = temp;
+
+        // current->next = insertDubbleList(current->next, data);
+        // current->next->prev = current;
+        return current;
+    }
+
+    Node *insertSingleList(Node *current, int data) {
+        if (current == NULL) {
+            return createNode(data);
+        }
+        Node *newnode = createNode(data);
+        Node *temp = current;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = newnode;
+
+        // current = insertSingleList(current->next, data);
+        // current->next = current;
         return current;
     }
 
@@ -214,16 +238,18 @@ private:
         if (current == NULL) return NULL;
         if (current->data == key) {
             Node *temp = current->next;
-            current = current->next;
-            if (current != NULL) {
-                current->prev = NULL;
+            if (temp != NULL) {
+                temp->prev = current->prev;
             }
+            if (current->prev != NULL) {
+                current->prev->next = temp;
+            }  else {
+                this->current = temp;
+            }
+            delete current;
             delete temp;
         } else {
             current->next = deleteNode(current->next, key);
-            if (current->next != NULL) {
-                current->next->prev = current;
-            }
         }
         return current;
     }
@@ -241,9 +267,11 @@ public:
         clearNode(current);
     }
 
-    void insertNode(int data) {
-        current = insertNode(current, data);
+    void insertDubbleList(int data) {
+        current = insertDubbleList(current, data);
     }
+
+
 
     void deleteNode(int key) {
         current = deleteNode(current, key);
