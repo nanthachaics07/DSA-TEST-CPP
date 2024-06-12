@@ -271,7 +271,9 @@ public:
         current = insertDubbleList(current, data);
     }
 
-
+    void insertSingleList(int data) {
+        current = insertSingleList(current, data);
+    }
 
     void deleteNode(int key) {
         current = deleteNode(current, key);
