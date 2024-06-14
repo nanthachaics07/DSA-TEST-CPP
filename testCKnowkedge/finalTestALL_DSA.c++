@@ -1,7 +1,10 @@
 #include <csignal>
 #include <iostream>
+// #include <iterator>
 #include <signal.h>
 #include <unistd.h>
+#include <queue>
+#include <stack>
 
 using namespace std;
 
@@ -28,6 +31,38 @@ private:
             insertNode(root->left, data);
         } else {
             insertNode(root->right, data);
+        }
+    }
+
+    void BFSTree(Node *root) {
+        if (root == NULL) return;
+        queue<Node *> q;
+        q.push(root);
+        while (!q.empty()) {
+            Node *temp = q.front();
+            q.pop();
+            if (temp->left != NULL) {
+                BFSTree(temp->left);
+            }
+            if (temp->right != NULL) {
+                BFSTree(temp->right);
+            }
+        }
+    }
+
+    void DFSTree(Node *root) {
+        if (root == NULL) return;
+        stack<Node *> s;
+        s.push(root);
+        while (!q.empty()) {
+            Node *temp = s.top();
+            s.pop();
+            if (temp->left != NULL) {
+                DFSTree(temp->left);
+            }
+            if (temp->right != NULL) {
+                DFSTree(temp->right);
+            }
         }
     }
 
@@ -63,6 +98,11 @@ public:
     }
 
 };
+
+class Graph {
+
+};
+
 
 void signalHandler(int signal) {
     cout << "Interrupt signal (" << signal << ") received.\n";
