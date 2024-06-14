@@ -1,5 +1,7 @@
+#include <csignal>
 #include <iostream>
-#include <sys/signal.h>
+#include <signal.h>
+#include <unistd.h>
 
 using namespace std;
 
@@ -62,7 +64,14 @@ public:
 
 };
 
+void signalHandler(int signal) {
+    cout << "Interrupt signal (" << signal << ") received.\n";
+    exit(signal);
+}
+
 int main() {
+    signal(SIGINT, signalHandler);
+
     Tree t;
     t.insertTree(3);
     t.insertTree(6);
@@ -75,5 +84,9 @@ int main() {
     t.travelTree();
     cout << endl;
 
+    while(false) {
+        cout << "Sleep......" << endl;
+        sleep(1);
+    }
     return 0;
 }
